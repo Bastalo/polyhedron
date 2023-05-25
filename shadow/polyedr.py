@@ -42,7 +42,6 @@ class Edge:
         self.beg, self.fin = beg, fin
         # Список «просветов»
         self.gaps = [Segment(Edge.SBEG, Edge.SFIN)]
-        self.no_gaps = []
 
     # Учёт тени от одной грани
     def shadow(self, facet):
@@ -65,8 +64,6 @@ class Edge:
         gaps = [s.subtraction(shade) for s in self.gaps]
         self.gaps = [
             s for s in reduce(add, gaps, []) if not s.is_degenerate()]
-        self.no_gaps = [
-            s for s in reduce(add, gaps, []) if s.is_degenerate()]
         
 
     # Преобразование одномерных координат в трёхмерные
@@ -86,7 +83,7 @@ class Edge:
     
     # Проверка ребра на условие угла ***
     def proof_angle(self):
-        v = self.fin - self.beg
+        v = self.fin.__sub__(self.beg)
         return self.fin.dist(self.beg) >= v.norm() * cos(pi/7)
     
     # Проверка ребра на расстояние до прямой **
@@ -155,7 +152,7 @@ class Polyedr:
                     alpha, beta, gamma = (float(x) * pi / 180.0 for x in buf)
                 elif i == 1:
                     # во второй строке число вершин, граней и рёбер полиэдра
-                    nv, nf, self.ne = (int(x) for x in line.split())
+                    nv, nf, ne = (int(x) for x in line.split())
                 elif i < nv + 2:
                     # задание всех вершин полиэдра
                     x, y, z = (float(x) for x in line.split())
@@ -190,8 +187,8 @@ class Polyedr:
             if (e.beg, e.fin) not in edges and (e.fin, e.beg) not in edges:
                 edges[(e.beg, e.fin)] = e
         self.edges = list(edges.values())
-        is_shade = False
-        for i in range(self.ne):
+        for i in range(len(self.edges)):
+            is_shade = False
             edge = self.edges[i]
             if len(edge.gaps) == 0:
                 is_shade = True
@@ -199,3 +196,8 @@ class Polyedr:
                 self.sum_edges += edge.fin.dist(edge.beg)
         self.sum_edges /= self.c
         
+    # Метод для затенения ребер, без рисования
+    def no_draw_just_shades(self):
+        for e in self.edges:
+            for f in self.facets:
+                e.shadow(f)
