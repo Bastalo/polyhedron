@@ -64,7 +64,6 @@ class Edge:
         gaps = [s.subtraction(shade) for s in self.gaps]
         self.gaps = [
             s for s in reduce(add, gaps, []) if not s.is_degenerate()]
-        
 
     # Преобразование одномерных координат в трёхмерные
     def r3(self, t):
@@ -80,12 +79,12 @@ class Edge:
             return Segment(Edge.SBEG, Edge.SFIN)
         x = - f0 / (f1 - f0)
         return Segment(Edge.SBEG, x) if f0 < 0.0 else Segment(x, Edge.SFIN)
-    
+
     # Проверка ребра на условие угла ***
     def proof_angle(self):
         v = self.fin.__sub__(self.beg)
         return self.fin.dist(self.beg) >= v.norm() * cos(pi/7)
-    
+
     # Проверка ребра на расстояние до прямой **
     def proof_dist(self, gc):
         return gc < self.fin.x_center(self.beg) < 3 * gc
@@ -195,7 +194,7 @@ class Polyedr:
             if is_shade and edge.proof_angle() and edge.proof_dist(self.c):
                 self.sum_edges += edge.fin.dist(edge.beg)
         self.sum_edges /= self.c
-        
+
     # Метод для затенения ребер, без рисования
     def no_draw_just_shades(self):
         for e in self.edges:

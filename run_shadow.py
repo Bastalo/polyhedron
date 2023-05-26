@@ -19,6 +19,6 @@ try:
         print("Сумма длин проекций рёбер, которые удовлетворятют условиям "
               f"задачи, равно {polyedr.sum_edges}")
         input("Hit 'Return' to continue -> ")
-except(EOFError, KeyboardInterrupt):
+except (EOFError, KeyboardInterrupt):
     print("\nStop")
     tk.close()

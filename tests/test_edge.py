@@ -24,22 +24,22 @@ class TestEdge:
     # Проверка неподходящего ребра на условие угла ***
     def test_proof_angle(self):
         s = Edge(R3(2.0, -1.0, -1.0), R3(0.5, 0.5, 3.0))
-        assert s.proof_angle() == False
+        assert s.proof_angle() == approx(False)
 
     # Проверка подходящего ребра на условие угла ***
     def test_proof_angle1(self):
         s = Edge(R3(2.0, -1.0, -1.0), R3(0.5, 0.5, -0.5))
-        assert s.proof_angle() == True
+        assert s.proof_angle()
 
     # Проверка неподходящего ребра на условие расстояния до прямой ***
     def test_proof_dist1(self):
         s = Edge(R3(0.0, -1.0, -1.0), R3(2.0, 0.5, 3.0))
-        assert s.proof_dist(1) == False
+        assert s.proof_dist(1) == approx(False)
 
     # Проверка подходящего ребра на условие расстояния до прямой ***
     def test_proof_dist2(self):
         s = Edge(R3(2.0, -1.0, -1.0), R3(0.5, 0.5, -0.5))
-        assert s.proof_dist(1) == True
+        assert s.proof_dist(1)
 
     # Одномерной координате 0.0 соответствует начало ребра
     def test_r301(self):

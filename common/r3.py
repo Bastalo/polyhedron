@@ -23,12 +23,12 @@ class R3:
     # x-координата центра ребра ***
     def x_center(self, other):
         return (self.x + other.x) * 0.5
-    
+
     # Длина проекции ребра на горизонтальной плоскости ***
     def dist(self, other):
-        return sqrt((self.x - other.x)*(self.x - other.x) + 
+        return sqrt((self.x - other.x)*(self.x - other.x) +
                     (self.y - other.y)*(self.y - other.y))
-    
+
     # Поворот вокруг оси Oz
     def rz(self, fi):
         return R3(
@@ -50,7 +50,7 @@ class R3:
             self.y * other.z - self.z * other.y,
             self.z * other.x - self.x * other.z,
             self.x * other.y - self.y * other.x)
-    
+
     # Норма вектора ***
     def norm(self):
         return sqrt(self.dot(self))
